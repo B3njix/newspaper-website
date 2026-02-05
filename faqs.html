@@ -88,7 +88,7 @@
     <script>
         // Global Configuration
         const CHAT_CONFIG = {
-            integrationId: '695ebfa206a2d040ec8f035a',
+            integrationId: '682cbb0e8f1d8c17ee921eef',
             storageType: 'sessionStorage'
         };
 
@@ -122,11 +122,13 @@
 
             const options = {
                 integrationId: CHAT_CONFIG.integrationId,
-                canUserSeeConversationList: false, // Hide conversation history
+                canUserSeeConversationList: true, // Hide conversation history
                 browserStorage: CHAT_CONFIG.storageType,
                 customText: {
-                    headerText: "Contact Us",  // Custom header text
-                    prechatCaptureGreetingText: `Thank you for contacting London Free Press. If this is an emergency, please call immediately.`
+                    headerText: "How can I help?",  // Custom header text
+                    prechatCaptureGreetingText: `Hi! I’m Postmedia’s virtual assistant.`,
+                    prechatCaptureConfirmationText: `Thanks you. How can I help you today?`,
+                    notificationSettingsConnected: "",
                 },
 
                 prechatCapture: {
@@ -134,9 +136,9 @@
                     fields: [
                         {
                             type: 'text',
-                            name: 'name',
-                            label: 'To get started, please enter your name below.',
-                            placeholder: 'your name',
+                            name: 'email',
+                            label: 'To get started, please provide your email address:',
+                            placeholder: 'your email',
                         },
                         
                     ],

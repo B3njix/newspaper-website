@@ -1,53 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The London Free Press - Home</title>
 
     <meta name="chat-context-publication" content="London Free Press">
-    <meta name="chat-context-page" content="Home"> 
+    <meta name="chat-context-page" content="Home">
 
     <style>
         /* --- GLOBAL STYLES (Newspaper Look) --- */
-        body { margin: 0; font-family: 'Georgia', serif; background-color: #f4f4f4; color: #333; }
-        
+        body {
+            margin: 0;
+            font-family: 'Georgia', serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
         /* HEADER */
-        header { background-color: #000; color: #fff; padding: 15px 0; border-bottom: 4px solid #cc0000; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        .header-top { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; }
-        .logo { font-size: 28px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 15px 0;
+            border-bottom: 4px solid #cc0000;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         /* NAVIGATION */
-        nav { border-top: 1px solid #333; padding-top: 10px; }
-        nav a { color: #fff; text-decoration: none; margin-right: 25px; font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; text-transform: uppercase; }
-        nav a:hover { color: #cc0000; }
+        nav {
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 25px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: #cc0000;
+        }
 
         /* CONTENT LAYOUT */
-        .main-content { background: #fff; margin-top: 20px; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); min-height: 500px; }
-        h1 { font-size: 32px; margin-bottom: 10px; color: #111; }
-        .article-meta { color: #888; font-size: 12px; font-family: Arial, sans-serif; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        p { line-height: 1.6; font-size: 18px; margin-bottom: 20px; }
+        .main-content {
+            background: #fff;
+            margin-top: 20px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            min-height: 500px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #111;
+        }
+
+        .article-meta {
+            color: #888;
+            font-size: 12px;
+            font-family: Arial, sans-serif;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
 
         /* FOOTER */
-        footer { background: #111; color: #777; padding: 40px 0; margin-top: 40px; text-align: center; font-family: Arial, sans-serif; font-size: 12px; }
+        footer {
+            background: #111;
+            color: #777;
+            padding: 40px 0;
+            margin-top: 40px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
 
         /* --- CHAT BUTTON STYLES --- */
         #endChatButton {
-            display: none; /* Hidden by default, shown via JS */
-            position: fixed; bottom: 35px; right: 30px; z-index: 999999;
-            padding: 8px 16px; background-color: #d9534f; color: white;
-            border: none; border-radius: 4px; cursor: pointer; font-family: Arial, sans-serif; font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: none;
+            position: fixed;
+            bottom: 588px;
+            right: 55px;
+            z-index: 2147483647;
+            padding: 4px 12px;
+            background-color: #607d8b;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Arial', sans-serif;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
         }
-        #endChatButton:hover { background-color: #c9302c; }
-        #endChatButton:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        #endChatButton:hover {
+            background-color: #455a64;
+            transform: translateY(-1px);
+        }
+
+        #endChatButton:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @supports (-webkit-touch-callout: none) {
+
+            input,
+            textarea {
+                font-size: 16px !important;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            #endChatButton {
+                top: 65px;
+                bottom: auto;
+                right: 15px;
+                padding: 4px 12px;
+                font-size: 10px;
+            }
+        }
     </style>
 
     <script>
         !function (o, i, s, c) { var a, p, h, u = [], l = []; function e() { var t = "You must provide a supported major version."; try { if (!c) throw new Error(t); var e, n = "https://sdk.cxengage.net/webchat/2.6.11/", r = "serenovawebchat"; if ((e = "string" == typeof this.response ? JSON.parse(this.response) : this.response).url) { var o = i.getElementsByTagName("script")[0], s = i.createElement("script"); s.async = !0; var a = c.match(/([0-9]+)\.?([0-9]+)?\.?([0-9]+)?/), p = a && a[1]; if (a && a[3]) s.src = n + r + "." + c + ".min.js"; else { if (!(1 <= p && e["v" + p])) throw new Error(t); s.src = e["v" + p] } o.parentNode.insertBefore(s, o) } } catch (e) { e.message === t && console.error(e) } } o[s] = { init: function () { a = arguments; var t = { then: function (e) { return l.push({ type: "t", next: e }), t }, catch: function (e) { return l.push({ type: "c", next: e }), t } }; return t }, on: function () { u.push(arguments) }, render: function () { p = arguments }, destroy: function () { h = arguments } }, o.__onWebMessengerHostReady__ = function (e) { if (delete o.__onWebMessengerHostReady__, o[s] = e, a) for (var t = e.init.apply(e, a), n = 0; n < l.length; n++) { var r = l[n]; t = "t" === r.type ? t.then(r.next) : t.catch(r.next) } p && e.render.apply(e, p), h && e.destroy.apply(e, h); for (n = 0; n < u.length; n++)e.on.apply(e, u[n]) }; var t = new XMLHttpRequest; t.addEventListener("load", e), t.open("GET", "https://sdk.cxengage.net/webchat/2.6.11/loader.json", !0), t.responseType = "json", t.send() }(window, document, "SerenovaWebChat", "2");
     </script>
 </head>
+
 <body>
 
     <header>
@@ -66,8 +181,10 @@
     <div class="container main-content">
         <h1>Local Council Approves New Downtown Park</h1>
         <div class="article-meta">By <strong>John Doe</strong> | Published Jan 07, 2026 | Local News</div>
-        
-        <p>LONDON, ON — City council voted unanimously last night to approve the development of a new green space in the downtown core. The project, slated to begin next summer, will transform the old parking lot into a vibrant community hub.</p>
+
+        <p>LONDON, ON — City council voted unanimously last night to approve the development of a new green space in the
+            downtown core. The project, slated to begin next summer, will transform the old parking lot into a vibrant
+            community hub.</p>
         <p>"This is a huge win for the city," said Mayor Smith. "It brings nature back to our urban center."</p>
         <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
         <h3>More Top Stories</h3>
@@ -85,7 +202,7 @@
         </div>
     </footer>
 
-     <!-- <button id="endChatButton">End Chat</button> -->
+    <button id="endChatButton">End Chat</button>
 
     <script>
         // Global Configuration
@@ -124,17 +241,17 @@
 
             const options = {
                 integrationId: CHAT_CONFIG.integrationId,
-                canUserSeeConversationList: false, // Hide conversation history
+                canUserSeeConversationList: true,
                 browserStorage: CHAT_CONFIG.storageType,
                 customText: {
                     headerText: "How can I help?",  // Custom header text
                     prechatCaptureGreetingText: `Hi! I’m Postmedia’s virtual assistant.`,
-                    prechatCaptureConfirmationText: `Thanks you. How can I help you today?`,
+                    prechatCaptureConfirmationText: `Thank you. How can I help you today?`,
                     notificationSettingsConnected: "",
                 },
 
                 prechatCapture: {
-                    
+
                     fields: [
                         {
                             type: 'text',
@@ -142,7 +259,7 @@
                             label: 'To get started, please provide your email address:',
                             placeholder: 'your email',
                         },
-                        
+
                     ],
                 },
                 delegate: {
@@ -172,7 +289,26 @@
                     }
                 }).catch(err => console.error("Failed to update user properties:", err));
 
-                // C. UI LISTENERS (Show/Hide Button)
+                // Inject CSS into the chat widget iframe to prevent iOS zoom on input focus
+                const injectIframeStyles = () => {
+                    const messengerIframe = document.getElementById('web-messenger-container');
+                    if (messengerIframe) {
+                        const iframeDoc = messengerIframe.contentDocument || messengerIframe.contentWindow.document;
+                        if (iframeDoc && !iframeDoc.getElementById('ios-zoom-fix')) {
+                            let zoomFix = iframeDoc.createElement('style');
+                            zoomFix.id = 'ios-zoom-fix';
+                            zoomFix.innerHTML = `@supports (-webkit-touch-callout: none) { input, textarea { font-size: 16px !important; } }`;
+                            iframeDoc.head.appendChild(zoomFix);
+                            console.log("[Chat Fix] iOS zoom fix injected into iframe.");
+                        }
+                    }
+                };
+
+                // Apply fix when widget is opened or loaded
+                SerenovaWebChat.on('widget:opened', injectIframeStyles);
+                injectIframeStyles(); // Try immediately as well
+
+                // Show the "End Chat" button when the widget is open and hide it when closed
                 SerenovaWebChat.on('widget:opened', () => endChatBtn.style.display = 'block');
                 SerenovaWebChat.on('widget:closed', () => endChatBtn.style.display = 'none');
             });
@@ -193,7 +329,7 @@
                 endChatBtn.style.display = 'none';
                 endChatBtn.innerText = "End Chat";
                 endChatBtn.disabled = false;
-                
+
                 // Re-initialize for the next potential session
                 setTimeout(initChatWidget, 1000);
             };
@@ -205,8 +341,8 @@
                     text: 'disconnect-conversation',
                     metadata: { type: 'disconnect-conversation' }
                 }, activeConversationId)
-                .then(() => setTimeout(performReset, 500))
-                .catch(() => performReset());
+                    .then(() => setTimeout(performReset, 500))
+                    .catch(() => performReset());
             } else {
                 performReset();
             }
@@ -220,6 +356,3 @@
 </body>
 
 </html>
-
-
-

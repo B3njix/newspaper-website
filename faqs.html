@@ -206,7 +206,7 @@
     <script>
         // Global Configuration
         const CHAT_CONFIG = {
-            integrationId: '695c04de46687020f97fed8b',
+            integrationId: '695ebfa206a2d040ec8f035a',
             storageType: 'sessionStorage'
         };
 
@@ -301,13 +301,40 @@
             SerenovaWebChat.init(options).then(() => {
                 console.log("SDK Initialized successfully.");
 
+                /*
+                 * BUGFIX (activeConversationId could stay null):
+                 * BEFORE: activeConversationId was only set inside beforeDisplay when an
+                 *   inbound message carried metadata.conversationId, so clicking "End Chat"
+                 *   before any message arrived never sent the disconnect to the backend.
+                 * AFTER: also capture the id from the `connected` event (data.conversation.id),
+                 *   which fires as soon as a connection is established.
+                 */
+                SerenovaWebChat.on('connected', (data) => {
+                    if (data?.conversation?.id) {
+                        activeConversationId = data.conversation.id;
+                    }
+                });
+
                 // A. READ CONTEXT FROM META TAGS
                 const context = getPageContext();
                 console.log(`[Chat Context] Sending: ${context.pageSource} (${context.publication})`);
 
                 // B. SEND CONTEXT TO AGENT
+                /*
+                 * BUGFIX (updateUser payload key):
+                 * BEFORE:
+                 *   SerenovaWebChat.updateUser({
+                 *       properties: { publication, pageSource, sourceUrl }
+                 *   });
+                 * AFTER:
+                 *   SerenovaWebChat.updateUser({
+                 *       metadata: { publication, pageSource, sourceUrl }
+                 *   });
+                 * The Messaging SDK V2 only reads custom data from `metadata`; `properties`
+                 * is silently ignored, so the page context never reached the agent.
+                 */
                 SerenovaWebChat.updateUser({
-                    properties: {
+                    metadata: {
                         publication: context.publication,
                         pageSource: context.pageSource,
                         sourceUrl: context.url
@@ -359,16 +386,41 @@
                 setTimeout(initChatWidget, 1000);
             };
 
-            if (activeConversationId) {
-                // Send disconnect signal to backend
+            /*
+             * BUGFIX (end chat did not close the interaction in the backend):
+             * BEFORE:
+             *   if (activeConversationId) {
+             *       SerenovaWebChat.sendMessage({ type: 'text',
+             *           text: 'disconnect-conversation',
+             *           metadata: { type: 'disconnect-conversation' } },
+             *           activeConversationId).then(...).catch(...);
+             *   } else { performReset(); }
+             *   -> If activeConversationId was null, only a local reset ran and the
+             *      backend conversation stayed open. Also the payload text did not
+             *      match the SDK docs.
+             * AFTER:
+             *   const conversationId = activeConversationId ||
+             *       (SerenovaWebChat.getDisplayedConversation()?.id) || null;
+             *   SerenovaWebChat.sendMessage({ type: 'text',
+             *       text: 'Customer ended the chat.',
+             *       metadata: { type: 'disconnect-conversation' } }, conversationId)...
+             */
+            const conversationId = activeConversationId ||
+                (SerenovaWebChat.getDisplayedConversation()?.id) || null;
+
+            if (conversationId) {
+                // Send the disconnect signal to the backend. Per the Messaging SDK V2 docs,
+                // ending a conversation is done via sendMessage() with a text payload and
+                // metadata.type = 'disconnect-conversation'.
                 SerenovaWebChat.sendMessage({
                     type: 'text',
-                    text: 'disconnect-conversation',
+                    text: 'Customer ended the chat.',
                     metadata: { type: 'disconnect-conversation' }
-                }, activeConversationId)
+                }, conversationId)
                     .then(() => setTimeout(performReset, 500))
                     .catch(() => performReset());
             } else {
+                // No conversation to disconnect; just reset the local session.
                 performReset();
             }
         }
